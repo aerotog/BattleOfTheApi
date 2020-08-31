@@ -5,7 +5,8 @@
     <AssemblyName>BOTA.API.OpenAPI</AssemblyName>
     <RootNamespace>BOTA.API.OpenAPI</RootNamespace>
 	<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-	<DockerfileContext>..\..</DockerfileContext>
+	<DockerfileContext>..</DockerfileContext>
+	<DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>

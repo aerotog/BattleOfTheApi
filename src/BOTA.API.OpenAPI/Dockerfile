@@ -6,12 +6,12 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["src/BOTA.API.OpenAPI/BOTA.API.OpenAPI.csproj", "src/BOTA.API.OpenAPI/"]
-COPY ["src/BOTA.Core/BOTA.Core.csproj", "src/BOTA.Core/"]
-COPY ["src/BOTA.DB/BOTA.DB.csproj", "src/BOTA.DB/"]
-RUN dotnet restore "src/BOTA.API.OpenAPI/BOTA.API.OpenAPI.csproj"
+COPY ["BOTA.API.OpenAPI/BOTA.API.OpenAPI.csproj", "BOTA.API.OpenAPI/"]
+COPY ["BOTA.Core/BOTA.Core.csproj", "BOTA.Core/"]
+COPY ["BOTA.DB/BOTA.DB.csproj", "BOTA.DB/"]
+RUN dotnet restore "BOTA.API.OpenAPI/BOTA.API.OpenAPI.csproj"
 COPY . .
-WORKDIR "/src/src/BOTA.API.OpenAPI"
+WORKDIR "/src/BOTA.API.OpenAPI"
 RUN dotnet build "BOTA.API.OpenAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish

@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    env_file:
+      - db.env
+      
+  bota.api.openapi:
+    image: ${DOCKER_REGISTRY-}botaapiopenapi
+    restart: always
+    build:
+      context: .
+      dockerfile: BOTA.API.OpenAPI/Dockerfile
