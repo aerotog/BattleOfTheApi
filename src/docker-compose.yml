@@ -7,10 +7,18 @@ services:
     restart: always
     env_file:
       - db.env
-      
+
   bota.api.openapi:
     image: ${DOCKER_REGISTRY-}botaapiopenapi
     restart: always
     build:
       context: .
       dockerfile: BOTA.API.OpenAPI/Dockerfile
+
+  bota.api.rest.jsonapi:
+    image: ${DOCKER_REGISTRY-}botaapirestjsonapi
+    restart: always
+    build:
+      context: .
+      dockerfile: BOTA.API.REST.JsonApi/Dockerfile
+    

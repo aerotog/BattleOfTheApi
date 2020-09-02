@@ -1,13 +1,12 @@
-using BOTA.Core.Repository;
+using JsonApiDotNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 
-namespace BOTA.API.OpenAPI
+namespace BOTA.API.REST.JsonApi
 {
     public class Startup
     {
@@ -21,26 +20,24 @@ namespace BOTA.API.OpenAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "Shop API",
-                    Version = "v1"
-                });
-            });
-
             services.AddDbContext<ShopContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("ShopContext")));
+
+            // AddJsonApi replaces AddControllers
+            services.AddJsonApi<ShopContext>(
+                options =>
+                {
+                    options.Namespace = "api";
+                    options.IncludeExceptionStackTraceInErrors = true;
+                    options.DefaultPageSize = 4;
+                    options.IncludeTotalRecordCount = true;
+                    options.ValidateModelState = true;
+                },
+                discovery => discovery.AddCurrentAssembly());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(
-            IApplicationBuilder app,
-            IWebHostEnvironment env,
-            ShopContext dbContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -49,20 +46,15 @@ namespace BOTA.API.OpenAPI
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            // New call for JsonApi
+            app.UseJsonApi();
+
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("v1/swagger.json", "Shop API V1");
-            });
-
-            dbContext.EnsureSeedData();
         }
     }
 }

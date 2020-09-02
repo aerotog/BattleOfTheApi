@@ -1,4 +1,4 @@
-﻿namespace BOTA.Core
+﻿namespace BOTA.Core.Models
 {
     public class Item
     {

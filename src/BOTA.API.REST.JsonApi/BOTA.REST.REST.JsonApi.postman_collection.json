@@ -1,0 +1,476 @@
+{
+	"info": {
+		"_postman_id": "845a1e6a-8315-4aac-ac03-a5f5da97d6a7",
+		"name": "BOTA.REST.REST.JsonApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1c2f2356-645c-44fd-a05b-c49bb8f62394",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9c98e386-db93-4d7c-b236-b59af01259e4",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.globals.set(\"addedUserId\", jsonData.data.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\":\r\n    {       \r\n        \"type\": \"users\",\r\n        \"attributes\": {\r\n            \"firstName\": \"Arya\",\r\n            \"lastName\": \"Stark\",\r\n            \"city\": \"King's Landing\"\r\n        } \r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "65a04aeb-41f9-4036-86a7-edbf6d79a208",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "6acd5a40-f2b3-4ab9-9120-2786677722b3",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\":\r\n    {\r\n        \"id\": {{addedUserId}},\r\n        \"type\": \"users\",\r\n        \"attributes\": {\r\n            \"firstName\": \"No\",\r\n            \"lastName\": \"One\",\r\n            \"city\": \"Braavos\"\r\n        } \r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/{{addedUserId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"{{addedUserId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get updated user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "c6f96ded-ae68-4997-99aa-1323b192aef2",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "8e032f1b-37fb-4a79-b6b8-45c68b84cd81",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\":\r\n    {\r\n        \"id\": {{addedUserId}},\r\n        \"type\": \"users\",\r\n        \"attributes\": {\r\n            \"firstName\": \"No\",\r\n            \"lastName\": \"One\",\r\n            \"city\": \"Braavos\"\r\n        } \r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/{{addedUserId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"{{addedUserId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e36f3fd3-7557-4d36-8de8-63e1ac0708ad",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/vnd.api+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/{{addedUserId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"{{addedUserId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add user with relationships",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4bfa0771-9f4f-41cf-b32a-579fea44d83b",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.api+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\":\r\n    {       \r\n        \"type\": \"users\",\r\n        \"attributes\": {\r\n            \"firstName\": \"Jon\",\r\n            \"lastName\": \"Stark\",\r\n            \"city\": \"King's Landing\"\r\n        },\r\n        \"relationships\": {\r\n            \"orders\": {\r\n                \"attributes\": {\r\n                    \"date\": \"2020-08-28 11:20:11.529636\"\r\n                }\r\n            }\r\n        }\r\n    },\r\n  \"included\": [\r\n    {\r\n      \"type\": \"orders\",\r\n      \"attributes\": {\r\n        \"date\": \"2020-08-28 11:20:11.529636\"\r\n      }\r\n    }\r\n  ]\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get users with relationships included",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "dfa10416-400a-42c6-bca9-9ee85265f6ab",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/users?include=orders&include=orders.items&include=orders.items.product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "include",
+									"value": "orders"
+								},
+								{
+									"key": "include",
+									"value": "orders.items"
+								},
+								{
+									"key": "include",
+									"value": "orders.items.product"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get users sorted by last name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ea739b9d-ca0c-4e02-9828-3183195878e9",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/users?sort=lastName",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "lastName"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Get orders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get products price only",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/products?fields=price",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"products"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "price"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

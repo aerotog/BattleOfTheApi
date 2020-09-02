@@ -1,7 +1,14 @@
 version: '3.4'
 
 services:
+
   bota.api.openapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+
+  bota.api.rest.jsonapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:

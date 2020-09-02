@@ -1,7 +1,7 @@
-﻿using BOTA.Core;
+﻿using BOTA.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BOTA.DB
+namespace BOTA.Core.Repository
 {
     public class ShopContext : DbContext
     {

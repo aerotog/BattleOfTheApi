@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using BOTA.Core;
-using BOTA.DB;
+using BOTA.Core.Models;
+using BOTA.Core.Repository;
 
 namespace BOTA.API.OpenAPI.Controllers
 {

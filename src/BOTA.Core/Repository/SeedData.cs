@@ -1,27 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BOTA.Core;
+using BOTA.Core.Models;
+using Microsoft.EntityFrameworkCore.Internal;
 using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
 
-namespace BOTA.DB
+namespace BOTA.Core.Repository
 {
     public static class SeedData
     {
         public static void EnsureSeedData(this ShopContext db)
         {
-            if (!db.Products.Any())
+            if (!EnumerableExtensions.Any(db.Products))
             {
                 AddProducts(db);
             }
 
-            if (!db.Users.Any())
+            if (!EnumerableExtensions.Any(db.Users))
             {
                 AddUsers(db);
             }
 
-            if (!db.Orders.Any())
+            if (!EnumerableExtensions.Any(db.Orders))
             {
                 AddOrders(db);
             }

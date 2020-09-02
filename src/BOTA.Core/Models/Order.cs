@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BOTA.Core
+namespace BOTA.Core.Models
 {
     public class Order
     {

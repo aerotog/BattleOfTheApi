@@ -1,14 +1,20 @@
 ﻿using System.Collections.Generic;
+using JsonApiDotNetCore.Models;
 
-namespace BOTA.Core
+namespace BOTA.API.REST.JsonApi.Models
 {
-    public class User
+    public class User : Identifiable
     {
-        public int Id { get; set; }
+        [Attr]
         public string FirstName { get; set; }
+
+        [Attr]
         public string LastName { get; set; }
+
+        [Attr]
         public string City { get; set; }
 
+        [HasMany]
         public List<Order> Orders { get; set; }
     }
 }

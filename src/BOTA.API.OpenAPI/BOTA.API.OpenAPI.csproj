@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BOTA.Core\BOTA.Core.csproj" />
-    <ProjectReference Include="..\BOTA.DB\BOTA.DB.csproj" />
   </ItemGroup>
 
 
