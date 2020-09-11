@@ -1,4 +1,4 @@
-# OpenAPI
+# Open API
 
 Running this project should open a Swagger UI that can be used to view and execute API endpoints.
 

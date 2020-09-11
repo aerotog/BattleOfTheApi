@@ -16,6 +16,8 @@ Pick one:
 - Target and run a single API .csproj with either the `dotnet` CLI, VS Code, or Visual Studio
     - NOTE: If you run an individual project, you'll need to setup and configure the connection for your own Postgres DB instance as docker-compose is otherwise doing that
 
+Instructions on how to query the API can be found in README in their respective project directories.
+
 ## Available API
 - Open API
 - REST

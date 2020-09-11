@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BOTA.Core", "BOTA.Core\BOTA
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2FF77328-DC24-45D1-804C-08118944D55F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOTA.API.REST.JsonApi", "BOTA.API.REST.JsonApi\BOTA.API.REST.JsonApi.csproj", "{5EB5E058-222D-4EB0-ACB1-DBB9F6318062}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BOTA.API.REST.JsonApi", "BOTA.API.REST.JsonApi\BOTA.API.REST.JsonApi.csproj", "{5EB5E058-222D-4EB0-ACB1-DBB9F6318062}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOTA.API.gRPC", "BOTA.API.gRPC\BOTA.API.gRPC.csproj", "{5B85575E-AAFE-463C-A695-DE6BC4E38C59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{5EB5E058-222D-4EB0-ACB1-DBB9F6318062}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EB5E058-222D-4EB0-ACB1-DBB9F6318062}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EB5E058-222D-4EB0-ACB1-DBB9F6318062}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B85575E-AAFE-463C-A695-DE6BC4E38C59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B85575E-AAFE-463C-A695-DE6BC4E38C59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B85575E-AAFE-463C-A695-DE6BC4E38C59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B85575E-AAFE-463C-A695-DE6BC4E38C59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

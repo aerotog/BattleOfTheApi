@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option csharp_namespace = "BOTA.API.gRPC";
+
+package users;
+
+service UsersProto {
+  rpc GetUsers (GetUserRequest) returns (User);
+  rpc GetUser (GetUserRequest) returns (User);
+}
+
+message GetUserRequest {
+  int32 Id = 1;
+}
+
+message User {
+  int32 Id = 1;
+  string FirstName = 2;
+  string LastName = 3;
+  string City = 4;
+}
+
+message Users {
+	repeated User users = 1;
+}
