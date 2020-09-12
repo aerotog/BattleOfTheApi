@@ -1,15 +1,22 @@
 syntax = "proto3";
 
+//import "google/protobuf/empty.proto";
+import "Protos/empty.proto";
+
 option csharp_namespace = "BOTA.API.gRPC";
 
 package users;
 
 service UsersProto {
-  rpc GetUsers (GetUserRequest) returns (User);
-  rpc GetUser (GetUserRequest) returns (User);
+  rpc AddUser (User) returns (User);
+  rpc DeleteUser (UserId) returns (User);
+  rpc GetUser (UserId) returns (User);
+  rpc GetUsers (empty.Empty) returns (Users);
+  rpc GetUsersStream (empty.Empty) returns (stream User);
+  rpc UpdateUser (User) returns (User);
 }
 
-message GetUserRequest {
+message UserId {
   int32 Id = 1;
 }
 

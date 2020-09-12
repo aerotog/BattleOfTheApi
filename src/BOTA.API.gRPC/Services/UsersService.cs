@@ -9,18 +9,32 @@ namespace BOTA.API.gRPC.Services
 {
     public class UsersService : UsersProto.UsersProtoBase
     {
-        private readonly ShopContext _context;
+        private readonly ShopContext _shopContext;
 
-        public UsersService(ShopContext context)
+        public UsersService(ShopContext shopContext)
         {
-            _context = context;
+            _shopContext = shopContext;
         }
 
-        public override async Task<User> GetUsers(
-            GetUserRequest request, 
-            ServerCallContext context)
+        public override async Task<User> GetUser(UserId userId, ServerCallContext context)
         {
-            var users = await _context.Users.ToListAsync();
+            var user = await _shopContext
+                .Users
+                .Include(x => x.Orders)
+                .Where(x => x.Id == userId.Id)
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new RpcException(new Status(StatusCode.NotFound, $"No user found with Id {userId.Id}"));
+            }
+
+            return user.ToProto();
+        }
+
+        public override async Task<Users> GetUsers(Empty _, ServerCallContext context)
+        {
+            var users = await _shopContext.Users.ToListAsync();
             var protoUsers = users.Select(x => new User
             {
                 City = x.City,
@@ -29,91 +43,76 @@ namespace BOTA.API.gRPC.Services
                 LastName = x.LastName
             });
 
-            return protoUsers.First();
-            //var foo = new Users()
-            //{
-            //    Users_ = protoUsers;
-            //};
-            //return new Users();
-            //return await _context.Users.ToListAsync();
+            var response = new Users();
+            response.Users_.Add(protoUsers);
+            return response;
         }
 
-        public override async Task<User> GetUser(
-            GetUserRequest request,
+        public override async Task GetUsersStream(
+            Empty _,
+            IServerStreamWriter<User> streamWriter,
             ServerCallContext context)
         {
-            var user = await _context
-                .Users
-                .Include(x => x.Orders)
-                .Where(x => x.Id == request.Id)
-                .FirstOrDefaultAsync();
+            var users = await _shopContext.Users.ToListAsync();
+            var protoUsers = users.Select(x => new User
+            {
+                City = x.City,
+                FirstName = x.FirstName,
+                Id = x.Id,
+                LastName = x.LastName
+            });
 
+            foreach (var protoUser in protoUsers)
+            {
+                context.CancellationToken.ThrowIfCancellationRequested();
+                await streamWriter.WriteAsync(protoUser);
+            }
+        }
+
+        public override async Task<User> UpdateUser(User user, ServerCallContext context)
+        {
+            var userEntity = user.ToEntity();
+            _shopContext.Entry(userEntity).State = EntityState.Modified;
+
+            try
+            {
+                await _shopContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (_shopContext.Users.Any(e => e.Id == user.Id) == false)
+                {
+                    throw new RpcException(new Status(StatusCode.NotFound, $"No user found with Id {user.Id}"));
+                }
+
+                throw;
+            }
+
+            return userEntity.ToProto();
+        }
+
+        public override async Task<User> AddUser(User user, ServerCallContext context)
+        {
+            var entity = user.ToEntity();
+
+            await _shopContext.Users.AddAsync(entity);
+            await _shopContext.SaveChangesAsync();
+
+            return entity.ToProto();
+        }
+
+        public override async Task<User> DeleteUser(UserId userId, ServerCallContext context)
+        {
+            var user = await _shopContext.Users.FindAsync(userId.Id);
             if (user == null)
             {
-                throw new RpcException(new Status(StatusCode.NotFound, $"No user found with Id {request.Id}"));
+                throw new RpcException(new Status(StatusCode.NotFound, $"No user found with Id {userId.Id}"));
             }
+
+            _shopContext.Users.Remove(user);
+            await _shopContext.SaveChangesAsync();
 
             return user.ToProto();
         }
-
-        //public async Task<IActionResult> PutUser(int id, User user)
-        //{
-        //    if (id != user.Id)
-        //    {
-        //        return null;
-        //        //return BadRequest();
-        //    }
-
-        //    _context.Entry(user).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!UserExists(id))
-        //        {
-        //            return null;
-        //            //return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return null;
-        //    //return NoContent();
-        //}
-
-        //public async Task<ActionResult<User>> PostUser(User user)
-        //{
-        //    _context.Users.Add(user);
-        //    await _context.SaveChangesAsync();
-
-        //    return null;
-        //    //return CreatedAtAction("GetUser", new { id = user.Id }, user);
-        //}
-
-        //public async Task<ActionResult<User>> DeleteUser(int id)
-        //{
-        //    var user = await _context.Users.FindAsync(id);
-        //    if (user == null)
-        //    {
-        //        return null;
-        //        //return NotFound();
-        //    }
-
-        //    _context.Users.Remove(user);
-        //    await _context.SaveChangesAsync();
-
-        //    return user;
-        //}
-
-        //private bool UserExists(int id)
-        //{
-        //    return _context.Users.Any(e => e.Id == id);
-        //}
     }
 }
