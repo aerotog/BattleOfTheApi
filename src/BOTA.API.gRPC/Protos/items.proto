@@ -1,0 +1,15 @@
+﻿syntax = "proto3";
+
+import "Protos/products.proto";
+
+option csharp_namespace = "BOTA.API.gRPC";
+
+package items;
+
+message Item {
+	int32 Id = 1;
+	int32 OrderId = 2;
+	int32 ProductId = 3;
+	int32 Quantity = 4;
+	products.Product Product = 5;
+}

@@ -8,6 +8,13 @@ services:
     env_file:
       - db.env
 
+  bota.api.grpc:
+    image: ${DOCKER_REGISTRY-}botaapigrpc
+    restart: always
+    build:
+      context: .
+      dockerfile: BOTA.API.gRPC/Dockerfile
+
   bota.api.openapi:
     image: ${DOCKER_REGISTRY-}botaapiopenapi
     restart: always

@@ -5,9 +5,10 @@ Simple C# implementations of various HTTP based API using a common data set host
   - [Available API](#available-api)
   - [Planned API](#planned-api)
   - [Implementation Notes](#implementation-notes)
-      - [Open API](#open-api)
+    - [Open API](#open-api)
     - [REST](#rest)
       - [JSON API](#json-api)
+    - [gRPC API](#grpc-api)
 ## To Run
 Pick one:
 - `docker-compose up` from within /src/
@@ -22,6 +23,7 @@ Instructions on how to query the API can be found in README in their respective 
 - Open API
 - REST
   - JSON API
+- gRPC
 
 
 ## Planned API
@@ -30,11 +32,10 @@ Instructions on how to query the API can be found in README in their respective 
     - HAL https://github.com/JakeGinnivan/WebApi.Hal
     - ODATA https://github.com/OData/WebApi
 - GRAPHQL https://github.com/graphql-dotnet/graphql-dotnet
-- gRPC
 
 ## Implementation Notes
 
-#### Open API
+### Open API
 -  [Specification](https://github.com/OAI/OpenAPI-Specification)
 -  [Library used](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)
 
@@ -62,3 +63,13 @@ It does generate some very useful features with very little boiler plate code. T
 - Filtering
 - Fieldset selection (kinda like GraphQL)
 - Read/Write access control via attributes
+
+### gRPC API
+- [Specification](https://grpc.io/docs)
+- [Library used](https://github.com/grpc/grpc-dotnet)
+
+The gRPC API is a Google creation that uses Google's Protobuf binary serialization. There are official frameworks for most of the popular [languages](https://grpc.io/docs/languages/) including [C#](https://grpc.io/docs/languages/csharp/).
+
+The implemented Services follow closely to the Open API controllers. However, since gRPC uses binary serialization, it cannot be queried with traditional HTTP plain text clients. There are instructions in the project specific README on how to use `grpcc` to query the API.
+
+Since gRPC uses binary, it will offer faster serialization/deserialization. The trad off is that it uses "proto" files as the contract between apps and is more strict about message structure than JSON as well as not having human readable messages. This would make it well suited for back end inter-service communication.

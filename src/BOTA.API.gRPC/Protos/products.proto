@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+import "Protos/empty.proto";
+
+option csharp_namespace = "BOTA.API.gRPC";
+
+package products;
+
+service ProductsProto {
+  rpc AddProduct (Product) returns (Product);
+  rpc DeleteProduct (ProductId) returns (Product);
+  rpc GetProduct (ProductId) returns (Product);
+  rpc GetProducts (empty.Empty) returns (Products);
+  rpc UpdateProduct (Product) returns (Product);
+}
+
+message ProductId {
+  int32 Id = 1;
+}
+
+message Product {
+  int32 Id = 1;
+  string Name = 2;
+  int32 Price = 3;
+}
+
+message Products {
+  repeated Product products = 1;
+}

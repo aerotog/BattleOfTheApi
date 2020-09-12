@@ -80,7 +80,7 @@ namespace BOTA.API.gRPC.Services
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (_shopContext.Users.Any(e => e.Id == user.Id) == false)
+                if (UserExists(user.Id) == false)
                 {
                     throw new RpcException(new Status(StatusCode.NotFound, $"No user found with Id {user.Id}"));
                 }
@@ -113,6 +113,11 @@ namespace BOTA.API.gRPC.Services
             await _shopContext.SaveChangesAsync();
 
             return user.ToProto();
+        }
+
+        private bool UserExists(int id)
+        {
+            return _shopContext.Users.Any(e => e.Id == id);
         }
     }
 }

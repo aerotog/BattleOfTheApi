@@ -1,6 +1,11 @@
 version: '3.4'
 
 services:
+  bota.api.grpc:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
 
   bota.api.openapi:
     environment:

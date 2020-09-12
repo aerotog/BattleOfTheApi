@@ -44,7 +44,8 @@ namespace BOTA.API.gRPC
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<GreeterService>();
+                endpoints.MapGrpcService<OrdersService>();
+                endpoints.MapGrpcService<ProductsService>();
                 endpoints.MapGrpcService<UsersService>();
 
                 endpoints.MapGet("/", async context =>

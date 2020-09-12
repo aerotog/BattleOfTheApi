@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+import "Protos/empty.proto";
+import "Protos/items.proto";
+
+option csharp_namespace = "BOTA.API.gRPC";
+
+package orders;
+
+service OrdersProto {
+  rpc AddOrder (Order) returns (Order);
+  rpc DeleteOrder (OrderId) returns (Order);
+  rpc GetOrder (OrderId) returns (Order);
+  rpc GetOrders (empty.Empty) returns (Orders);
+  rpc UpdateOrder (Order) returns (Order);
+}
+
+message OrderId {
+  int32 Id = 1;
+}
+
+message Order {
+  int32 Id = 1;
+  int32 UserId = 2;
+  string Date = 3;
+  repeated items.Item Items = 4;
+}
+
+message Orders {
+  repeated Order orders = 1;
+}
