@@ -8,7 +8,8 @@ Simple C# implementations of various HTTP based API using a common data set host
     - [Open API](#open-api)
     - [REST](#rest)
       - [JSON API](#json-api)
-    - [gRPC API](#grpc-api)
+    - [GraphQL](#graphql)
+    - [gRPC](#grpc)
 ## To Run
 Pick one:
 - `docker-compose up` from within /src/
@@ -64,7 +65,15 @@ It does generate some very useful features with very little boiler plate code. T
 - Fieldset selection (kinda like GraphQL)
 - Read/Write access control via attributes
 
-### gRPC API
+### GraphQL
+- [Specification](https://github.com/graphql/graphql-spec)
+- [Library used](https://github.com/graphql-dotnet/graphql-dotnet)
+
+- Offers streaming between client-server via web sockets
+- Allows client to specify fields to avoid under/over fetching
+
+
+### gRPC
 - [Specification](https://grpc.io/docs)
 - [Library used](https://github.com/grpc/grpc-dotnet)
 
@@ -72,4 +81,5 @@ The gRPC API is a Google creation that uses Google's Protobuf binary serializati
 
 The implemented Services follow closely to the Open API controllers. However, since gRPC uses binary serialization, it cannot be queried with traditional HTTP plain text clients. There are instructions in the project specific README on how to use `grpcc` to query the API.
 
-Since gRPC uses binary, it will offer faster serialization/deserialization. The trad off is that it uses "proto" files as the contract between apps and is more strict about message structure than JSON as well as not having human readable messages. This would make it well suited for back end inter-service communication.
+Since gRPC uses binary, it offers faster serialization and transport. The trade off is that it uses "proto" files as the contract between apps and is more strict about message structure than JSON as well as not having human readable messages. This would make it well suited for back end inter-service communication.
+
