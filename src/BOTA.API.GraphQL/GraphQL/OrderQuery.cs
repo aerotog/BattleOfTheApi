@@ -6,31 +6,34 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BOTA.API.GraphQL.GraphQL
 {
-    public class UserQuery : ObjectGraphType
+    public class OrderQuery : ObjectGraphType
     {
-        public UserQuery(ShopContext shopContext)
+        public OrderQuery(ShopContext shopContext)
         {
-            Field<UserType>(
-                "User",
+            Field<OrderType>(
+                "Order",
                 arguments: new QueryArguments(
                     new QueryArgument<IntGraphType>
                     {
-                        Name = "id", Description = "Id of the User"
+                        Name = "id", Description = "Id of the Order"
                     }),
                 resolve: context =>
                 {
                     var id = context.GetArgument<int>("id");
                     return shopContext
-                        .Users
-                        .Include(x => x.Orders)
-                        .ThenInclude(x => x.Items)
+                        .Orders
+                        .Include(x => x.Items)
                         .ThenInclude(x => x.Product)
                         .FirstOrDefault(i => i.Id == id);
                 });
 
-            Field<ListGraphType<UserType>>(
-                "Users",
-                resolve: context => shopContext.Users);
+            Field<ListGraphType<OrderType>>(
+                "Orders",
+                resolve: context =>
+                {
+                    var users = shopContext.Orders;
+                    return users;
+                });
         }
     }
 }

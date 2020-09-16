@@ -1,3 +1,4 @@
+using BOTA.API.GraphQL.GraphQL;
 using BOTA.Core.Repository;
 using GraphiQl;
 using Microsoft.AspNetCore.Builder;
@@ -22,6 +23,8 @@ namespace BOTA.API.GraphQL
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddScoped<ISchemaFactory,SchemaFactory>();
 
             services.AddDbContext<ShopContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("ShopContext")));

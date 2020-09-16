@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using BOTA.API.GraphQL.Dtos;
 using BOTA.API.GraphQL.GraphQL;
 using BOTA.Core.Repository;
 using GraphQL;
-using GraphQL.Types;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace BOTA.API.GraphQL.Controllers
 {
@@ -19,12 +15,17 @@ namespace BOTA.API.GraphQL.Controllers
     public class GraphQLController : ControllerBase
     {
         private readonly ILogger<GraphQLController> _logger;
+        private readonly ISchemaFactory _schemaFactory;
         private readonly ShopContext _dbContext;
 
-        public GraphQLController(ILogger<GraphQLController> logger, ShopContext dbContext)
+        public GraphQLController(
+            ILogger<GraphQLController> logger,
+            ShopContext dbContext,
+            ISchemaFactory schemaFactory)
         {
             _logger = logger;
             _dbContext = dbContext;
+            _schemaFactory = schemaFactory;
         }
 
         [HttpPost]
@@ -73,10 +74,7 @@ namespace BOTA.API.GraphQL.Controllers
             }
 
 
-            var schema = new Schema
-            {
-                Query = new UserQuery(_dbContext)
-            };
+            var schema = _schemaFactory.GetSchema(query);
 
             var result = await new DocumentExecuter().ExecuteAsync(options =>
             {
@@ -92,7 +90,7 @@ namespace BOTA.API.GraphQL.Controllers
                 return BadRequest(result.Errors);
             }
 
-            return Ok(result);
+            return Ok(result.Data);
         }
     }
 }

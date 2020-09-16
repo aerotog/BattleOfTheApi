@@ -13,7 +13,8 @@ namespace BOTA.API.GraphQL.GraphQL
             Field(x => x.FirstName).Description("First name of the User");
             Field(x => x.LastName).Description("Last name of the User");
             Field(x => x.City).Description("Cit of the User");
+            //Field<GraphQLListType<OrderType>>("orders");
+            Field(x => x.Orders, type: typeof(ListGraphType<OrderType>)).Description("Orders for the User");
         }
-
     }
 }

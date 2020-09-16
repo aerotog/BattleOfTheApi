@@ -1,9 +1,5 @@
-using System.Collections.Generic;
-using BOTA.API.GraphQL.Dtos;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace BOTA.API.GraphQL
 {
